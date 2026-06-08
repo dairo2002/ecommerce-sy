@@ -25,6 +25,6 @@ class ProductDto
             mimeTypes:["image/jepg", "image/jpg", "image/png"],
             mimeTypesMessage:"El formato de la imagen no es valido, Solo se permite  JPG, JPEG o PNG"
         )]
-        public readonly UploadedFile $imagen,
+        public readonly ?UploadedFile $imagen,
     ) {}
 }
