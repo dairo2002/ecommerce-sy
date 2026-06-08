@@ -1,0 +1,12 @@
+app_home:
+    path: /home
+    controller: App\Controller\HomeController::index
+
+#URL --> Admin
+app_admin_productos:
+    path: /productos
+    controller: App\Controller\Admin\ProductosController::index
+
+admin_productos_store:
+    path: /productos/store
+    controller: App\Controller\Admin\ProductosController::createProducts

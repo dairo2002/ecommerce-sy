@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} Curso PHP {% endblock %}</title>
+</head>
+<body>
+    <header id="header">
+    {% block header %}
+        <h1>Cabecera de la plantilla</h1>
+    {% endblock %}
+    </header>
+
+    <main>
+        {% block content %}
+        <p>Contenido principal de la plantilla</p>
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2023 My App. All rights reserved.</p>
+    </footer>
+</body>
+</html>
