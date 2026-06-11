@@ -25,14 +25,14 @@ async function saveProduct(event) {
     formData.append('imagen', fileImg.files[0]);
 
     fetch(`${URL_BASE}${ENDPOINTS.productos}`, { method: 'POST', body: formData })
-    .then(res => res.json())
-    .then(res => {
-        if (res.success) {
-            window.flashy.success(res.message);
-        } else {        
-            const message = Object.values(res.error).join('<br>');
-            window.flashy.error(message);
-        }
-    });
+        .then(res => res.json())
+        .then(res => {
+            if (res.success) {
+                window.flashy.success(res.message);
+            } else {
+                const message = Object.values(res.error).join('<br>');
+                window.flashy.error(message);
+            }
+        });
 
 }
