@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ProductosRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,13 +29,9 @@ class Productos
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imagen = null;
 
-    #[ORM\OneToMany(targetEntity: Categoria::class, mappedBy: 'productos', orphanRemoval: true)]
-    private Collection $categoria;
-
-    public function __construct()
-    {
-        $this->categoria = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(targetEntity: Categoria::class, inversedBy: 'productos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Categoria $categoria = null;
 
     public function getId(): ?int
     {
@@ -104,32 +98,14 @@ class Productos
         return $this;
     }
 
-    /**
-     * @return Collection<int, categoria>
-     */
-    public function getCategoria(): Collection
+    public function getCategoria(): ?Categoria
     {
         return $this->categoria;
     }
 
-    public function addCategorium(categoria $categorium): static
+    public function setCategoria(?Categoria $categoria): static
     {
-        if (!$this->categoria->contains($categorium)) {
-            $this->categoria->add($categorium);
-            $categorium->setProductos($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCategorium(categoria $categorium): static
-    {
-        if ($this->categoria->removeElement($categorium)) {
-            // set the owning side to null (unless already changed)
-            if ($categorium->getProductos() === $this) {
-                $categorium->setProductos(null);
-            }
-        }
+        $this->categoria = $categoria;
 
         return $this;
     }

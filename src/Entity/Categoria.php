@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\CategoriaRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: CategoriaRepository::class)]
 class Categoria
@@ -32,13 +34,25 @@ class Categoria
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $fechafin = null;
 
-    #[ORM\ManyToOne(inversedBy: 'categoria')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Productos $productos = null;
+    #[ORM\OneToMany(targetEntity: Productos::class, mappedBy: 'categoria')]
+    private Collection $productos;
+
+    /**
+     * @var ArrayCollection<int, Productos>
+     */
+    public function __construct()
+    {
+        $this->productos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getProductos(): Collection
+    {
+        return $this->productos;
     }
 
     public function getNombre(): ?string
@@ -113,14 +127,24 @@ class Categoria
         return $this;
     }
 
-    public function getProductos(): ?Productos
+    public function addProducto(Productos $producto): static
     {
-        return $this->productos;
+        if (!$this->productos->contains($producto)) {
+            $this->productos->add($producto);
+            $producto->setCategoria($this);
+        }
+
+        return $this;
     }
 
-    public function setProductos(?Productos $productos): static
+    public function removeProducto(Productos $producto): static
     {
-        $this->productos = $productos;
+        if ($this->productos->removeElement($producto)) {
+
+            if ($producto->getCategoria() === $this) {
+                $producto->setCategoria(null);
+            }
+        }
 
         return $this;
     }

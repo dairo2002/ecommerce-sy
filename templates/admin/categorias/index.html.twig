@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Hello ProductosController!
+{% endblock %}
+
+{% block body %}
+    <section>
+        <div class="container d-flex justify-content-center">
+            <div class="row p-4 w-75 shadow m-auto">
+                <form id="frmProducts" class="row g-3" action="" method="POST" enctype="multipart/form-data">
+                    <div class="col-12">
+                        <label for="txtCategory" class="form-label">Categoría</label>
+                        <input type="text" class="form-control" id="txtCategory">
+                    </div>
+                    <div class="col-12">
+                        <label for="txtDescription" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="txtDescription">
+                    </div>
+                    <div class="col-6">
+                        <label for="fileImg" class="form-label">Imagen</label>
+                        <input type="file" class="form-control" id="fileImg">
+                    </div>
+                    <div class="col-6">
+                        <label for="txtStock" class="form-label">Stock</label>
+                        <input type="number" class="form-control" id="txtStock" placeholder="Ingrese la cnatidad">
+                    </div>
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary col-3">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block scripts %}
+    <script type="module" src="{{ asset('assets/js/admin/category/index.js') }}"></script>
+{% endblock %}
