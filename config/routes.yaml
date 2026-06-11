@@ -10,3 +10,11 @@ app_admin_productos:
 admin_productos_store:
     path: /productos/store
     controller: App\Controller\Admin\ProductosController::createProducts
+
+app_admin_categorias:
+    path: /categorias
+    controller: App\Controller\Admin\CategoriasController::index
+
+app_admin_categorias_create:
+    path: /categorias
+    controller: App\Controller\Admin\CategoriasController::create

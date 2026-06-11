@@ -66,17 +66,7 @@ class ProductosController extends AbstractController
         $product->setSlug($dto->nombre);
 
         $this->em->persist($product);
-        $this->em->flush();
- 
-        /*try {
-            $imageUrl = $request->getSchemeAndHttpHost() . '/assets/img/logo.png';
-            $imageData = file_get_contents($imageUrl);
-            $base64Image = 'data:image/png;base64,' . base64_encode($imageData);            
-            $product->setImagen($base64Image);
-        } catch (\Exception $e) {
-            $product->setImagen(null);
-        }*/
-        
+        $this->em->flush();       
        
         return $this->json([
             'success'  => true,
