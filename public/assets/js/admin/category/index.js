@@ -1,33 +1,42 @@
-
 const URL_BASE = "http://127.0.0.1:8000";
 
 const ENDPOINTS = {
-    productos: '/categorias/create'
+    categoria: "/categorias/add"
 };
 
-let txtCategory = document.getElementById('txtCategory');
-let txtDiscount = document.getElementById('txtDiscount');
-let txtStartDate = document.getElementById('txtStartDate');
-let txtEndDate = document.getElementById('txtEndDate');
+const frmProducts = document.querySelector('#frmCategory');
+frmProducts.addEventListener('submit', create);
 
-const data = {
-    categoria: txtCategory,
-    descuento: txtDiscount,
-    fechainicio: txtStartDate,
-    fechafin: txtEndDate,
-}
+async function create(event) {
+    event.preventDefault();
 
-fetch(`${URL_BASE}${ENDPOINTS.productos}`, {
-    method: 'POST',
-    headers: { 'Content-type': 'application/json' },
-    body: data
-})
-    .then(res => res.json())
-    .then(res => {
-        if (res.success) {
-            window.flashy.success(res.message);
+    const payload = {
+        categoria: document.getElementById("txtCategory").value,
+        descuento: document.getElementById("txtDiscount").value,
+        fechainicio: document.getElementById("txtStartDate").value,
+        fechafin: document.getElementById("txtEndDate").value
+    };
+
+    try {
+        const response = await fetch(`${URL_BASE}${ENDPOINTS.categoria}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        console.log(result);
+
+        if (result.success) {
+            window.flashy.success(result.message);
         } else {
-            const message = Object.values(res.error).join('<br>');
-            window.flashy.error(message);
+            window.flashy.error(result.message);
         }
-    });
+
+    } catch (error) {
+        console.error(error);
+    }
+}
