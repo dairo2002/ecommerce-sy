@@ -69,11 +69,11 @@
                 <form id="frmProducts" class="row g-3" action="" method="POST" enctype="multipart/form-data">
                     <div class="col-12">
                         <label for="txtProduct" class="form-label">Producto</label>
-                        <input type="text" class="form-control" id="txtProduct">
+                        <input type="text" class="form-control" id="txtProduct" name="nombre">
                     </div>
                     <div class="col-12">
                         <label for="txtDescription" class="form-label">Descripción</label>
-                        <input type="text" class="form-control" id="txtDescription">
+                        <input type="text" class="form-control" id="txtDescription" name="descripcion">
                     </div>
                     <div class="col-12 col-md-12">
                         <label for="fileImg" class="file-upload-label">
@@ -86,13 +86,21 @@
                             <p class="text-browse">Cargue el archivo arrastrando</p>
                             <span class="browse-button">Seleccion</span>
                         </div>
-                        <input id="fileImg" type="file" />
+                        <input type="file" id="fileImg" name="fileImg" accept="image/*">                        
                     </label>
                 </div>
                 <div class="col-12 col-md-12">
                     <label for="txtStock" class="form-label">Stock</label>
-                    <input type="number" class="form-control" id="txtStock" placeholder="Ingrese la cantidad">
+                    <input type="number" class="form-control" id="txtStock" name="stock" placeholder="Ingrese la cantidad">
                 </div>
+                <div class="col-12 col-md-12">
+                <select class="form-control" id="txtCategory" name="category">
+                    <option value="" class="text-muted">Seleccionar</option>    
+                    {% for cat in allCategory %}
+                        <option value="{{cat.id}}">{{cat.nombre}}</option>    
+                    {% endfor %}
+                </select>
+                </div>                
                 <div class="col-12 text-center">
                     <button type="submit" class="btn btn-primary col-3">Enviar</button>
                 </div>

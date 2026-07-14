@@ -50,44 +50,48 @@
             <section>
                 <h4 class="text-center my-4 fw-bold">CATEGORÍAS</h4>
                 <div class="row g-4">
-                {% for i in allCategory %}
-                    <div class="col-12 col-sm-6 col-md-4">
-                        <div class="card h-100 p-3">{{i.nombre}}</div>
-                    </div>  
-                {% endfor %}
+                    {% for i in allCategory %}
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="card h-100 p-3">{{i.nombre}}</div>
+                        </div>
+                    {% endfor %}
                 </div>
             </section>
             <section>
                 <h4 class="text-center my-4 fw-bold">PRODUCTOS</h4>
                 <div class="row d-flex justify-content-center justify-content-lg-start justify-content-xxl-start">
                     <div class="col-10 col-sm-6 col-md-5 col-lg-4 col-xl-3 mb-4">
-                        <div class="card tarjeta_productos h-100">
-                            <div class="card-body contaninerProductos">
-                                <a href="">
-                                    <span class="badge p-2 text-bg-success z-1 position-absolute rounded-5"> productos</span>
-                                    <img src="" class="card-img-top rounded-3 mb-2" alt="imagen producto" />
-                                </a>
-                                <p class="fw-semibold" style="display: -webkit-box;  -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;"> productos.nombre </p>
-                                <div class="d-flex my-2 justify-content-between">
-                                    <span> productos.descuentoFormatiado</span>
-                                    <del>
-                                        <small class="text-muted">productos.precioFormatiado</small>
-                                    </del>
+                        {% for item in allProducts %}
+                            <div class="card tarjeta_productos h-100">
+                                <div class="card-body contaninerProductos">
+                                    <a href="">
+                                        <span class="badge p-2 text-bg-success z-1 position-absolute rounded-5"> descuento</span>
+                                        <img src=" " class="card-img-top rounded-3 mb-2" alt="imagen producto" />
+                                    </a>
+                                    <p class="fw-semibold" style="display: -webkit-box;  -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;"> productos.nombre </p>
+                                    <!-- <div class="d-flex my-2 justify-content-between">
+                                        <span> productos.descuentoFormatiado</span>
+                                        <del>
+                                            <small class="text-muted">productos.precioFormatiado</small>
+                                        </del>
+                                    </div> -->
+
+                                    <a href="">
+                                        <img src="{{ asset('uploads/' ~ item.imagen) }}" 
+                                        class="card-img-top rounded-3 mb-2" alt="{{ item.nombre }}"/>
+                                    </a>
+                                    <p class="fw-semibold" style="display: -webkit-box;  -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;"> {{item.nombre}} </p>
+                                    {# <span class="mb-2"> productos.precioFormatiado </span> #}
+
+                                    {# <h5><span class="badge text-bg-danger mt-3 mx-auto">Agotado</span></h5> #}
+
+                                    <div class="d-flex gap-2 mt-2">
+                                        <button value="" class="btn btn-outline-dark w-100 btnAgregarProducto">Agregar <i class="fa-solid fa-cart-shopping"></i></button>
+                                    </div>
+
                                 </div>
-
-                                <a href=""><img src="" class="card-img-top rounded-3 mb-2" alt="imagen producto" /></a>
-                                <p class="fw-semibold" style="display: -webkit-box;  -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;"> productos.nombre </p>
-                                <span class="mb-2"> productos.precioFormatiado </span>
-
-
-                                <h5><span class="badge text-bg-danger mt-3 mx-auto">Agotado</span></h5>
-
-                                <div class="d-flex gap-2 mt-2">
-                                    <button value="" class="btn btn-outline-dark w-100 btnAgregarProducto">Agregar <i class="fa-solid fa-cart-shopping"></i></button>
-                                </div>
-
                             </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </section>

@@ -1,4 +1,4 @@
-const URL_BASE = "http://127.0.0.1:8000";
+const URL_BASE = "http://localhost:8080";
 
 const ENDPOINTS = {
     categoria: "/categorias/add"
@@ -28,7 +28,6 @@ async function create(event) {
 
         const result = await response.json();
 
-        console.log(result);
 
         if (result.success) {
             window.flashy.success(result.message);
