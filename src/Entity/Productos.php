@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductosRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,6 +34,14 @@ class Productos
     #[ORM\ManyToOne(targetEntity: Categoria::class, inversedBy: 'productos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categoria $categoria = null;
+
+    #[ORM\OneToMany(targetEntity: ItemCarrito::class, mappedBy: 'idproducto', orphanRemoval: true)]
+    private Collection $itemCarritos;
+
+    public function __construct()
+    {
+        $this->itemCarritos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -106,6 +116,36 @@ class Productos
     public function setCategoria(?Categoria $categoria): static
     {
         $this->categoria = $categoria;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ItemCarrito>
+     */
+    public function getItemCarritos(): Collection
+    {
+        return $this->itemCarritos;
+    }
+
+    public function addItemCarrito(ItemCarrito $itemCarrito): static
+    {
+        if (!$this->itemCarritos->contains($itemCarrito)) {
+            $this->itemCarritos->add($itemCarrito);
+            $itemCarrito->setIdproducto($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItemCarrito(ItemCarrito $itemCarrito): static
+    {
+        if ($this->itemCarritos->removeElement($itemCarrito)) {
+            // set the owning side to null (unless already changed)
+            if ($itemCarrito->getIdproducto() === $this) {
+                $itemCarrito->setIdproducto(null);
+            }
+        }
 
         return $this;
     }

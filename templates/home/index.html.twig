@@ -4,7 +4,79 @@
     Hello HomeController!
 {% endblock %}
 
+{% block styles %}
+    <style>
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .cart-item__img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .cart-item__info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .cart-item__nombre {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .cart-item__cantidad {
+            width: 80px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .cart-item__precio {
+            margin: 0;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasRightLabel">Carrito de compras</h5>
+            {# <hr> #}
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="row">
+                {% for item in itemCart %}
+                    <div class="col-12">
+                        <div class="cart-item">
+                            <img src="{{ asset('uploads/' ~ item.idproducto.imagen) }}" class="cart-item__img"/>
+                            <div class="cart-item__info">
+                                <h5 class="cart-item__nombre" title="{{ item.idproducto.nombre }}">{{ item.idproducto.nombre }}</h5>
+                                <p class="cart-item__precio">$ precio</p>
+                                {# <p class="cart-item__precio">${{ item.idproducto.precio|number_format(0, ',', '.') }}</p> #}
+                                <label>Cantidad</label>
+                                <input type="number" value="{{ item.cantidad }}" class="cart-item__cantidad"/>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
     <div>
         <div class="container">
             <section>
@@ -60,15 +132,15 @@
             <section>
                 <h4 class="text-center my-4 fw-bold">PRODUCTOS</h4>
                 <div class="row d-flex justify-content-center justify-content-lg-start justify-content-xxl-start">
-                    <div class="col-10 col-sm-6 col-md-5 col-lg-4 col-xl-3 mb-4">
-                        {% for item in allProducts %}
+                    {% for item in allProducts %}
+                        <div class="col-10 col-sm-6 col-md-5 col-lg-4 col-xl-3 mb-4">
                             <div class="card tarjeta_productos h-100">
                                 <div class="card-body contaninerProductos">
-                                    <a href="">
-                                        <span class="badge p-2 text-bg-success z-1 position-absolute rounded-5"> descuento</span>
-                                        <img src=" " class="card-img-top rounded-3 mb-2" alt="imagen producto" />
-                                    </a>
-                                    <p class="fw-semibold" style="display: -webkit-box;  -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;"> productos.nombre </p>
+                                    {# <a href="">
+                                    <span class="badge p-2 text-bg-success z-1 position-absolute rounded-5"> descuento</span>
+                                    <img src=" " class="card-img-top rounded-3 mb-2" alt="imagen producto" />
+                                    </a> #}
+                                    {# <p class="fw-semibold" style="display: -webkit-box;  -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;"> productos.nombre </p> #}
                                     <!-- <div class="d-flex my-2 justify-content-between">
                                         <span> productos.descuentoFormatiado</span>
                                         <del>
@@ -77,8 +149,8 @@
                                     </div> -->
 
                                     <a href="">
-                                        <img src="{{ asset('uploads/' ~ item.imagen) }}" 
-                                        class="card-img-top rounded-3 mb-2" alt="{{ item.nombre }}"/>
+                                        <img src="{{ asset('uploads/' ~ item.imagen) }}"
+                                            class="card-img-top rounded-3 mb-2" alt="{{ item.nombre }}"/>
                                     </a>
                                     <p class="fw-semibold" style="display: -webkit-box;  -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;"> {{item.nombre}} </p>
                                     {# <span class="mb-2"> productos.precioFormatiado </span> #}
@@ -86,13 +158,13 @@
                                     {# <h5><span class="badge text-bg-danger mt-3 mx-auto">Agotado</span></h5> #}
 
                                     <div class="d-flex gap-2 mt-2">
-                                        <button value="" class="btn btn-outline-dark w-100 btnAgregarProducto">Agregar <i class="fa-solid fa-cart-shopping"></i></button>
+                                        <button id="btnAddToCart" onclick="productAddCart({{ item.id }})" class="btn btn-outline-dark w-100">Agregar<i class="fa-solid fa-cart-shopping"></i></button>
                                     </div>
 
                                 </div>
                             </div>
-                        {% endfor %}
-                    </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </section>
 
@@ -108,4 +180,7 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ asset('assets/js/client/home.js') }}"></script>
 {% endblock %}
