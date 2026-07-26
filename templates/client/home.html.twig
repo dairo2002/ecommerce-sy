@@ -58,21 +58,13 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div class="row">
-                {% for item in itemCart %}
-                    <div class="col-12">
-                        <div class="cart-item">
-                            <img src="{{ asset('uploads/' ~ item.idproducto.imagen) }}" class="cart-item__img"/>
-                            <div class="cart-item__info">
-                                <h5 class="cart-item__nombre" title="{{ item.idproducto.nombre }}">{{ item.idproducto.nombre }}</h5>
-                                <p class="cart-item__precio">$ precio</p>
-                                {# <p class="cart-item__precio">${{ item.idproducto.precio|number_format(0, ',', '.') }}</p> #}
-                                <label>Cantidad</label>
-                                <input type="number" value="{{ item.cantidad }}" class="cart-item__cantidad"/>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
+            <div class="row" id="cart-container"></div>
+        </div>
+        <div class="d-flex flex-column">
+            <hr class="m-0">
+            <div class="d-flex justify-content-between px-5 py-3">
+                <span>Total</span>
+                <p id="totalItemCart" class="cart-item__precio"></p>
             </div>
         </div>
     </div>
@@ -136,31 +128,14 @@
                         <div class="col-10 col-sm-6 col-md-5 col-lg-4 col-xl-3 mb-4">
                             <div class="card tarjeta_productos h-100">
                                 <div class="card-body contaninerProductos">
-                                    {# <a href="">
-                                    <span class="badge p-2 text-bg-success z-1 position-absolute rounded-5"> descuento</span>
-                                    <img src=" " class="card-img-top rounded-3 mb-2" alt="imagen producto" />
-                                    </a> #}
-                                    {# <p class="fw-semibold" style="display: -webkit-box;  -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;"> productos.nombre </p> #}
-                                    <!-- <div class="d-flex my-2 justify-content-between">
-                                        <span> productos.descuentoFormatiado</span>
-                                        <del>
-                                            <small class="text-muted">productos.precioFormatiado</small>
-                                        </del>
-                                    </div> -->
-
                                     <a href="">
                                         <img src="{{ asset('uploads/' ~ item.imagen) }}"
                                             class="card-img-top rounded-3 mb-2" alt="{{ item.nombre }}"/>
                                     </a>
                                     <p class="fw-semibold" style="display: -webkit-box;  -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;"> {{item.nombre}} </p>
-                                    {# <span class="mb-2"> productos.precioFormatiado </span> #}
-
-                                    {# <h5><span class="badge text-bg-danger mt-3 mx-auto">Agotado</span></h5> #}
-
                                     <div class="d-flex gap-2 mt-2">
                                         <button id="btnAddToCart" onclick="productAddCart({{ item.id }})" class="btn btn-outline-dark w-100">Agregar<i class="fa-solid fa-cart-shopping"></i></button>
                                     </div>
-
                                 </div>
                             </div>
                         </div>

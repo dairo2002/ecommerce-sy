@@ -4,7 +4,7 @@ controllers:
 
 app_home:
     path: /home
-    controller: App\Controller\HomeController::index
+    controller: App\Controller\Client\HomeController::index
 
 #URL --> Admin
 app_admin_productos:

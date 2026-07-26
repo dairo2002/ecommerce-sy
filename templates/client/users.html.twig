@@ -1,0 +1,165 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Hello User!
+{% endblock %}
+
+{% block styles %}
+    <style>
+
+        :root{
+            --auth-bg:#F4F6F8;
+            --auth-surface:#FFFFFF;
+            --auth-border:#DCE1E6;
+            --auth-text:#16202B;
+            --auth-text-muted:#5B6B79;
+            --auth-accent:#0F6E5C;
+            --auth-accent-hover:#0C5A4B;
+            --auth-danger:#C0392B;
+            --auth-danger-bg:#FBECEA;
+            --auth-success:#0F6E5C;
+            --auth-success-bg:#E7F3EF;
+        }
+
+        .auth-page{
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:var(--auth-bg);
+            font-family:'Inter',sans-serif;
+            color:var(--auth-text);
+            padding:24px;
+        }
+
+        .auth-card{
+            position:relative;
+            width:100%;
+            max-width:440px;
+            background:var(--auth-surface);
+            border:1px solid var(--auth-border);
+            border-radius:10px;
+            padding:40px 36px 32px;
+        }
+
+        .auth-tabs{
+            display:flex;
+            border-bottom:1px solid var(--auth-border);
+            margin-bottom:28px;
+        }
+
+        .auth-tab{
+            flex:1;
+            background:none;
+            border:none;
+            padding:0 0 12px;
+            font-family:'Manrope',sans-serif;
+            font-size:15px;
+            font-weight:600;
+            color:var(--auth-text-muted);
+            cursor:pointer;
+            border-bottom:2px solid transparent;
+            transition:color .15s ease, border-color .15s ease;
+        }
+
+        .auth-tab.is-active{ color:var(--auth-text); border-bottom-color:var(--auth-accent); }
+        .auth-tab:focus-visible{ outline:2px solid var(--auth-accent); outline-offset:2px; }
+
+        .auth-panel{ display:none; }
+        .auth-panel.is-active{ display:block; }
+
+        .auth-title{ font-family:'Manrope',sans-serif; font-size:22px; font-weight:700; margin:0 0 20px; }
+
+        .auth-form label{ display:block; font-size:13px; font-weight:500; color:var(--auth-text-muted); margin:16px 0 6px; }
+
+        .auth-form input{
+            width:100%; height:44px; padding:0 14px;
+            border:1px solid var(--auth-border); border-radius:8px;
+            font-size:14px; font-family:'Inter',sans-serif; box-sizing:border-box;
+            transition:border-color .15s ease, box-shadow .15s ease;
+        }
+        .auth-form input:focus{
+            outline:none; border-color:var(--auth-accent);
+            box-shadow:0 0 0 3px rgba(15,110,92,.15);
+        }
+
+        .auth-btn{
+            width:100%; height:46px; margin-top:24px;
+            background:var(--auth-text); color:#fff; border:none; border-radius:8px;
+            font-family:'Manrope',sans-serif; font-size:15px; font-weight:600; cursor:pointer;
+            transition:background .15s ease;
+        }
+        .auth-btn:hover{ background:var(--auth-accent-hover); }
+
+        .auth-switch{ margin-top:20px; font-size:13px; color:var(--auth-text-muted); text-align:center; }
+        .auth-switch a{ color:var(--auth-accent); text-decoration:none; font-weight:500; }
+        .auth-switch a:hover{ text-decoration:underline; }
+
+        .auth-alert{ padding:10px 14px; border-radius:8px; font-size:13px; margin-bottom:16px; }
+        .auth-alert--error{ background:var(--auth-danger-bg); color:var(--auth-danger); }
+        .auth-alert--success{ background:var(--auth-success-bg); color:var(--auth-success); }
+
+        @media (max-width:480px){ .auth-card{ padding:32px 24px 24px; } }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="auth-page">
+        <div class="auth-card">
+            <div class="auth-tabs" role="tablist">
+                <button type="button" class="auth-tab is-active" data-tab="login" role="tab" aria-selected="true">
+                    Iniciar sesión
+                </button>
+                <button type="button" class="auth-tab" data-tab="register" role="tab" aria-selected="false">
+                    Crear cuenta
+                </button>
+            </div>
+
+            <div class="auth-panel is-active" data-panel="login">
+                <h1 class="auth-title">Inicio de sesión</h1>
+                <form class="auth-form" method="post">
+                    <label for="login-email">Correo electrónico</label>
+                    <input type="email" id="login-email" name="username" placeholder="name@example.com" required>
+
+                    <label for="login-password">Contraseña</label>
+                    <input type="password" id="login-password" name="password" required>
+
+                    <button type="submit" class="auth-btn">Ingresar</button>
+                </form>
+                <p class="auth-switch">¿No tiene una cuenta? <a href="#" data-switch="register">Registrarse</a></p>
+            </div>
+
+            <div class="auth-panel" data-panel="register">
+                <h1 class="auth-title">Crear cuenta</h1>
+
+                <form class="auth-form" method="post" id="formRegister">
+                    <label for="reg-name">Nombre</label>
+                    <input type="text" id="reg-name" name="txtName" placeholder="nombres" required>
+
+                    <label for="reg-lastname">Apellido</label>
+                    <input type="text" id="reg-lastname" name="txtLastName" placeholder="apellidos" required>
+
+                    <label for="reg-phone">Telefono</label>
+                    <input type="number" id="reg-phone" name="txtPhone" placeholder="Telefono">
+
+                    <label for="reg-email">Correo electrónico</label>
+                    <input type="email" id="reg-email" name="txtEmail" placeholder="name@example.com" required>
+
+                    <label for="reg-password">Contraseña</label>
+                    <input type="password" id="reg-password" name="txtPassword" required>
+
+                    <label for="reg-password-confirm">Confirmar contraseña</label>
+                    <input type="password" id="reg-password-confirm" name="txtPasswordConfirm" required>
+
+                    <button type="submit" class="auth-btn">Crear cuenta</button>
+                </form>
+
+                <p class="auth-switch">¿Ya tiene una cuenta? <a href="#" data-switch="login">Iniciar sesión</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('assets/js/client/user.js') }}"></script>        
+{% endblock %}

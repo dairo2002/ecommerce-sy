@@ -38,6 +38,9 @@ class Productos
     #[ORM\OneToMany(targetEntity: ItemCarrito::class, mappedBy: 'idproducto', orphanRemoval: true)]
     private Collection $itemCarritos;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0')]
+    private ?string $precio = null;
+
     public function __construct()
     {
         $this->itemCarritos = new ArrayCollection();
@@ -146,6 +149,18 @@ class Productos
                 $itemCarrito->setIdproducto(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPrecio(): ?string
+    {
+        return $this->precio;
+    }
+
+    public function setPrecio(string $precio): static
+    {
+        $this->precio = $precio;
 
         return $this;
     }

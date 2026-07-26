@@ -1,11 +1,12 @@
 let urlApi = "http://localhost:8080/home/cart/add";
+let urlList = "http://localhost:8080/home/cart/list";
+let urlDelete = "http://localhost:8080/home/cart/delete";
 
 function productAddCart(productId) {    
     getProductId(productId, 1);
 }
 
 async function getProductId(productId, quantity = 1) {
-    
     try {
         const res = await fetch(urlApi, {
             method: 'POST',
@@ -18,26 +19,67 @@ async function getProductId(productId, quantity = 1) {
             }) 
         });
 
-        console.log('res', res);
+        // const data = await res.json();
         
-
-        // if (!res.ok) {
-        //     if (window.flashy) {
-        //         window.flashy.error('No se pudieron enviar los datos');
-        //     }
-        //     throw new Error(`Error en la petición: ${res.statusText}`);
-        // }
-
-        const data = await res.json();
-        console.log(data);
-        
-        console.log('Datos recibidos del servidor:', data);
-
-        if (window.flashy) {
-            window.flashy.success('Producto agregado al carrito correctamente');
-        }
-
     } catch (error) {
         console.error('Ocurrió un error en el fetch:', error);
     }
+
+    listCart();
 }
+
+
+async function listCart() {
+    const res = await fetch(urlList);
+    const data = await res.json();
+    
+    const contenedor = document.getElementById('cart-container');
+    
+    contenedor.innerHTML = '';
+
+    if (data.itemsCart.length === 0) {
+        contenedor.innerHTML = '<p>El carrito está vacío</p>';
+        return;
+    }
+
+    data.itemsCart.forEach(function (item) {
+        contenedor.innerHTML += `
+            <div class="col-12">
+                <div class="cart-item">
+                    <img src="/uploads/${item.imagen}" class="cart-item__img" alt="${item.nombre}">
+                    <button type="button" onclick="deleteCart(${item.id})" class="btn-close" aria-label="Close"></button>
+                    <div class="cart-item__info">
+                        <h5 class="cart-item__nombre" title="${item.nombre}">${item.nombre}</h5>
+                        <p class="cart-item__precio">$${item.precio}</p>
+                        <label>Cantidad</label>                    
+                        <input type="number" value="${ item.cantidad }" class="cart-item__cantidad"/>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    const totalElemento = document.getElementById('totalItemCart');
+    if (totalElemento) {
+        totalElemento.textContent = `$${data.total}`;
+    }
+
+    const countItems = document.getElementById('countItemCart');
+    if (countItems) {
+        countItems.textContent = `${data.countItem}`;
+    }
+}
+
+async function deleteCart(productId) {
+    await fetch( `${urlDelete}/${productId}`,{
+        method: 'DELETE',
+    });
+    
+    listCart();
+}
+
+// async (params) => {}
+
+document.addEventListener('DOMContentLoaded', function () {
+    listCart();
+});

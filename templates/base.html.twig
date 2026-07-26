@@ -63,8 +63,17 @@
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
-                    <button class="btn btn-outline-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                    <i class="fa-solid fa-cart-shopping"></i></button>
+                    <div class="d-flex gap-2">
+                    
+                        <button class="btn btn-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                            <i class="fa-solid fa-cart-shopping fa-sm"></i>                            
+                            <span class="badge rounded-pill text-dark cart-badge-top" id="countItemCart"></span>                                
+                        </button>
+                        
+                        <button class="btn btn-white" type="button">
+                            <a href="{{ path('app_client_user') }}"><i class="far fa-user fa-sm"></i></a>
+                        </button>
+                    </div>
                 </div>
             </div>
         </nav>
