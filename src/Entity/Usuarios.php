@@ -5,9 +5,11 @@ namespace App\Entity;
 use App\Repository\UsuariosRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UsuariosRepository::class)]
-class Usuarios
+class Usuarios implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -34,6 +36,9 @@ class Usuarios
 
     #[ORM\OneToOne(mappedBy: 'usuario', cascade: ['persist', 'remove'])]
     private ?Carritocompras $y = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $password = null;
 
     public function getId(): ?int
     {
@@ -128,4 +133,28 @@ class Usuarios
 
         return $this;
     }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->correoelectronico;
+    }
+
+    public function getRoles(): array
+    {
+        return ['ROLE_USER'];
+    }
+
+    public function eraseCredentials(): void {}
 }

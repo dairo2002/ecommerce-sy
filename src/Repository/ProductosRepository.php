@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Productos;
+use Dba\Connection;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,6 +22,37 @@ class ProductosRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Productos::class);
     }
+
+    public function findProductsWithCategory() {        
+        return $this->createQueryBuilder('p')
+            ->select("
+                p.nombre as producto,
+                c.nombre as categoria,
+                p.descripcion,
+                p.imagen,
+                p.precio,
+                p.stock
+            ")
+            ->innerJoin('p.categoria', 'c')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+
+    /*
+  $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p
+            FROM App\Entity\Product p
+            WHERE p.price > :price
+            ORDER BY p.price ASC'
+        )->setParameter('price', $price);
+
+        // returns an array of Product objects
+        return $query->getResult();
+
+    */
 
 //    /**
 //     * @return Productos[] Returns an array of Productos objects

@@ -22,32 +22,44 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
             activate(link.getAttribute('data-switch'));
         });
-    });
+    });  
+    signUp();
 });
 
 function signUp() {
     document.getElementById("formRegister").addEventListener('submit', function (e) {
         e.preventDefault();
 
-        const data = new FormData(e.target);
+        const from = new FormData(e.target);
     
-        let name = data.get('txtName')
-        let lastName = data.get('txtLastName')
-        let phone = data.get('txtPhone') 
-        let email = data.get('txtEmail') 
-        let password = data.get('txtPassword')
-        let passwordConfirm = data.get('txtPasswordConfirm')
+        const data = {
+            name: from.get('txtName'),
+            lastName: from.get('txtLastName'),
+            phone: from.get('txtPhone'),
+            email: from.get('txtEmail'),
+            password: from.get('txtPassword'),
+            passwordConfirm: from.get('txtPasswordConfirm')
+        }
 
-        console.log([
-            name,
-            lastName,
-            phone,
-            email,
-            password,
-            passwordConfirm,
-        ]);
-        
+        let url = `${APP.BASE_URL}${APP.ENDPOINTS.user.signup}`;        
 
+        fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(data)            
+        })
+        .then(response => response.json())
+        .then(result => {
+            if(result.success) {
+                window.flashy.success(result.message);
+            } else {
+                window.flashy.success(result.message);
+            }            
+        })
+        .catch(error => {
+            // console.error(error);
+        });
     });
-
 }

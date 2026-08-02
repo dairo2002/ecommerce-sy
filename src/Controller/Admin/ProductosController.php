@@ -23,7 +23,8 @@ class ProductosController extends AbstractController
     /** @var SluggerInterface */
     private $slugger;
 
-    public function __construct(EntityManagerInterface $em, SluggerInterface $slug) {
+    public function __construct(EntityManagerInterface $em, SluggerInterface $slug)
+    {
         $this->em = $em;
         $this->slugger = $slug;
     }
@@ -31,14 +32,14 @@ class ProductosController extends AbstractController
     public function index()
     {
         $allCategory = $this->em->getRepository(Categoria::class)->findAll();
-        return $this->render('admin/productos/index.html.twig', array(
+        return $this->render('admin/products.html.twig', array(
             'allCategory' => $allCategory
         ));
     }
 
     #[Route('/productos/store', name: 'app_admin_productos_store', methods: ['POST'])]
     public function createProducts(Request $request, ValidatorInterface $validador): JsonResponse
-    {        
+    {
         $uploadedImage = $request->files->get('fileImg');
         $categoryId = $request->request->get('category');
 
@@ -67,7 +68,7 @@ class ProductosController extends AbstractController
 
         $imageName = null;
         if ($uploadedImage instanceof UploadedFile) {
-            $uploadDir = $this->getParameter('kernel.project_dir').'/public/uploads';
+            $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads';
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
             }
@@ -93,14 +94,14 @@ class ProductosController extends AbstractController
             $data['description'] ?? '',
             $data['stock'] ?? null,
             $imageName
-        );        
+        );
 
         $errors = $validador->validate($dto);
 
         if (count($errors) > 0) {
-            
+
             $error = [];
-            
+
             foreach ($errors as $e) {
                 $error[$e->getPropertyPath()] = $e->getMessage();
             }
@@ -108,8 +109,7 @@ class ProductosController extends AbstractController
             return $this->json([
                 'success' => false,
                 'error'   => $error
-            ], 422 );
-
+            ], 422);
         }
 
         $product = new Productos;
@@ -121,11 +121,20 @@ class ProductosController extends AbstractController
         $product->setCategoria($category);
 
         $this->em->persist($product);
-        $this->em->flush();       
-       
+        $this->em->flush();
+
         return $this->json([
             'success'  => true,
             'message' => 'Producto guardado exitosamente'
         ], 201);
+    }
+
+    #[Route('/productos/list', name: 'app_admin_productos_list', methods: ['GET'])]
+    public function listProduct(): JsonResponse
+    {
+        $products = $this->em->getRepository(Productos::class)->findProductsWithCategory();
+        return new JsonResponse([
+            'products' => $products
+        ]);
     }
 }

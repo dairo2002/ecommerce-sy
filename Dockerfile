@@ -13,3 +13,7 @@ RUN mkdir -p /tmp/opcache && chmod 777 /tmp/opcache
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
+
+RUN apk add --no-cache $PHPIZE_DEPS linux-headers \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug
