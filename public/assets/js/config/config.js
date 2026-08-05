@@ -4,7 +4,7 @@ const APP = {
     ENDPOINTS: {
         // add productos, categorias
         user: {
-            // login:  '/user/login',
+            login:  '/user/login',
             signup: '/user/signup'
         }
     }

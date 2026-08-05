@@ -56,7 +56,7 @@ class CartService {
         $quantity  = $data['quantity'] ?? null;
     
         $store = $this->addItem($productId, $quantity);        
-        $this->requestStack->getSession()->set(self::SESSION_KEY, $store);
+        $this->requestStack->getSession()->set(self::SESSION_KEY, $store);        
     }
 
     public function delete(int $productId){

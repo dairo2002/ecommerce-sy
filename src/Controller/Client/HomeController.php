@@ -35,9 +35,13 @@ class HomeController extends AbstractController
     }
 
     #[Route('home/cart/add', name: 'app_admin_home', methods: ['GET', 'POST'])]
-    public function addProductCart(Request $request) {
+    public function addProductCart(Request $request): JsonResponse {
         $data = json_decode($request->getContent(), true);
-        return $this->cart->add($data);        
+        $this->cart->add($data);
+        return new JsonResponse([
+            'success' => true,
+            'message' => 'Producto agregado correctamente al carrito'
+        ]);
     }
 
     #[Route('home/cart/list', name: 'cart_list', methods: ['GET'])]

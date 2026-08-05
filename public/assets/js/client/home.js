@@ -19,7 +19,15 @@ async function getProductId(productId, quantity = 1) {
             }) 
         });
 
-        // const data = await res.json();
+        const result = await res.json();
+
+        if (result.success) {
+            window.flashy.success(result.message);
+            bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('offcanvasRight')).show();
+        } else {
+            window.flashy.error(result.message);
+        }
+        
         
     } catch (error) {
         console.error('Ocurrió un error en el fetch:', error);
