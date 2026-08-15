@@ -6,11 +6,14 @@ use App\Entity\Productos;
 use App\DTO\Admin\ProductDto;
 use App\Entity\Categoria;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -136,5 +139,54 @@ class ProductosController extends AbstractController
         return new JsonResponse([
             'products' => $products
         ]);
+    }
+
+    #[Route('/productos/download', name: 'app_admin_productos_download', methods: ['POST'])]
+    public function downloadExcelProducts() {        
+        $file = $this->getParameter('kernel.project_dir') . '/public/assets/plantallas-xlsx/plantilla.xlsx';
+
+        if (!file_exists($file)) {
+            throw new \Exception('La plantilla no se encontró');
+        }
+
+        $spreadsheet = IOFactory::load($file);
+        $sheet = $spreadsheet->getActiveSheet();
+        
+        $sheet->setCellValue('A1', 'Producto');
+        $sheet->setCellValue('B1', 'Categoría');
+        $sheet->setCellValue('C1', 'Descripcion');
+        $sheet->setCellValue('D1', 'Precio');
+        $sheet->setCellValue('F1', 'Stock');        
+
+        $products = $this->em->getRepository(Productos::class)->findProductsWithCategory();
+        $fila = 2;
+
+        foreach ($products as $row) {
+            $sheet->setCellValue('A' . $fila, $row['producto']);
+            $sheet->setCellValue('B' . $fila, $row['categoria']);
+            $sheet->setCellValue('C' . $fila, $row['descripcion']);
+            $sheet->setCellValue('D' . $fila, $row['precio']);
+            $sheet->setCellValue('F' . $fila, $row['stock']);
+
+            $fila++;
+        }
+            
+        $file = tempnam(sys_get_temp_dir(), 'productos_') . '.xlsx';
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save($file);
+
+        // return $this->downloadFile($file, 'productos.xlsx')->deleteFileAfterSend(true);
+        return $this->downloadFile($file);
+    }
+
+    public function downloadFile(string $file) : BinaryFileResponse {
+        $response = new BinaryFileResponse($file);
+
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            basename($file)
+        );
+
+        return $response;
     }
 }

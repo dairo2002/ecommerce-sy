@@ -2,13 +2,6 @@ document.addEventListener('DOMContentLoaded', function () {
     listProduct();
 });
 
-const URL_BASE = "http://localhost:8080";
-
-const ENDPOINTS = {
-    productos: '/productos/store',
-    list:      '/productos/list'
-};
-
 const frmProducts = document.querySelector('#frmProducts');
 const imageInput = document.getElementById('fileImg');
 
@@ -22,7 +15,7 @@ async function saveProduct(event) {
     const formData = new FormData(frmProducts);
 
     try {
-        const res = await fetch(`${URL_BASE}${ENDPOINTS.productos}`, {
+        const res = await fetch(`${APP.BASE_URL}${APP.ENDPOINTS.producto.add}`, {
             method: 'POST',
             body: formData
         });
@@ -45,11 +38,39 @@ async function saveProduct(event) {
 }
 
 
-function listProduct() {     
-    fetch(`${URL_BASE}${ENDPOINTS.list}`)
+function listProduct() {
+    fetch(`${APP.BASE_URL}${APP.ENDPOINTS.producto.list}`)        
         .then(res => res.json())
         .then(data => tblProducts(data.products))
         .catch(error => console.log(error))
+}
+
+async function downloadExcelProducts() {
+    try {
+        const response = await fetch(
+            `${APP.BASE_URL}${APP.ENDPOINTS.producto.download}`,
+            { method: 'POST' }
+        );
+
+        if (!response.ok) {
+            throw new Error(`No se pudo generar el Excel (HTTP ${response.status})`);
+        }
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'productos.xlsx';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error(error);
+        window.flashy.error('No se pudo descargar el archivo de productos.');
+    }
 }
 
 function tblProducts(data) {
@@ -83,11 +104,11 @@ function tblProducts(data) {
             },
             { title: 'Imagen', data: 'imagen',
                 render: data => `<img 
-                    src="${URL_BASE}/uploads/${data}"
+                    src="${APP.BASE_URL}/uploads/${data}"
                     class="cursor-pointer img-producto" 
                     width="30" height="30"
                     title="Vizualizar la Imagen"
-                    data-imagen="${URL_BASE}/uploads/${data}"
+                    data-imagen="${APP.BASE_URL}/uploads/${data}"
                 >`
             },
             { title: 'Precio', data: 'precio'},
