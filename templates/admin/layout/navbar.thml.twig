@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-lg site-navbar">
+    <div class="container-fluid site-navbar__container">
+        <a class="navbar-brand site-navbar__brand" href="{{ path('app_home') }}" aria-label="Ir al inicio">
+            <img src="{{ asset('assets/img/Logo.svg') }}" alt="Inicio" width="100" height="100" />
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse site-navbar__content" id="navbarSupportedContent">
+            <ul class="navbar-nav site-navbar__links">
+                <li class="nav-item">
+                    <a class="nav-link" href="">Bienvenido</a>
+                </li>
+            </ul>
+            <div class="site-navbar__actions"
+                <ul class="list-unstyled mb-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle site-navbar__user" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Opciones de usuario"><i class="far fa-user" aria-hidden="true"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a href="{{ path('app_client_user') }}" class="dropdown-item text-decoration-none text-dark">Iniciar Sesión</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

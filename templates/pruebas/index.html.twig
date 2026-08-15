@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cargue de archivos{% endblock %}
+
+{% block body %}
+    <main class="container py-5" id="cargue-app">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <section class="card shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5">
+                        <h1 class="h3 mb-2">Cargue de archivos</h1>
+                        <p class="text-secondary mb-4">Seleccione el archivo que desea importar.</p>
+
+                        <form id="formCargue" action="{{ path('app_cargue') }}" method="post" enctype="multipart/form-data" novalidate>
+                            <label for="archivoCargue" class="form-label fw-semibold">Archivo</label>
+                            <input
+                                class="form-control"
+                                id="archivoCargue"
+                                name="archivo"
+                                type="file"
+                                accept=".xlsx,.xls,.csv"
+                                required
+                                aria-describedby="ayudaArchivo"
+                            >
+                            <div id="ayudaArchivo" class="form-text">Formatos permitidos: Excel (.xlsx, .xls) o CSV.</div>
+
+                            <div id="archivoSeleccionado" class="small text-secondary mt-3" aria-live="polite">
+                                Aún no ha seleccionado un archivo.
+                            </div>
+
+                            <div id="estadoCargue" class="alert d-none mt-4 mb-0" role="status" aria-live="polite"></div>
+
+                            <button id="btnCargue" class="btn btn-primary w-100 mt-4" type="submit">
+                                Cargar archivo
+                            </button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('assets/js/pruebas.js') }}"></script>
+{% endblock %}

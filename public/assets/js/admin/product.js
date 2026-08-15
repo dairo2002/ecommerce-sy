@@ -53,7 +53,11 @@ function listProduct() {
 }
 
 function tblProducts(data) {
-    console.log(data);
+
+    $(document).on('click', '.img-producto', function () {
+        $('#modalImagenProducto').modal('show');
+        $('#imagenProductoModal').attr('src', $(this).data('imagen'));
+    });
     
     let tbl = new DataTable('#tblProducts', {
         responsive: true,
@@ -78,7 +82,13 @@ function tblProducts(data) {
                 render: data => data.length > 20 ? data.substring(0, 50) + '...' : data
             },
             { title: 'Imagen', data: 'imagen',
-                render: data => `<img src="${URL_BASE}/uploads/${data}" width="100">`
+                render: data => `<img 
+                    src="${URL_BASE}/uploads/${data}"
+                    class="cursor-pointer img-producto" 
+                    width="30" height="30"
+                    title="Vizualizar la Imagen"
+                    data-imagen="${URL_BASE}/uploads/${data}"
+                >`
             },
             { title: 'Precio', data: 'precio'},
             { title: 'Stock', data: 'stock'},

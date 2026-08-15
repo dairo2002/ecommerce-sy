@@ -1,7 +1,18 @@
 FROM php:8.2-fpm-alpine
 
-RUN apk add --no-cache git unzip libpq-dev icu-dev \
-    && docker-php-ext-install pdo pdo_mysql intl opcache
+RUN apk add --no-cache \
+    git \
+    unzip \
+    libzip-dev \
+    libpq-dev \
+    icu-dev
+
+RUN docker-php-ext-install \
+    zip \
+    pdo \
+    pdo_mysql \
+    intl \
+    opcache
 
 # Copy PHP configuration
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/custom.ini

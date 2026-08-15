@@ -37,6 +37,9 @@ class Categoria
     #[ORM\OneToMany(targetEntity: Productos::class, mappedBy: 'categoria')]
     private Collection $productos;
 
+    #[ORM\Column]
+    private ?bool $estado = null;
+
     /**
      * @var ArrayCollection<int, Productos>
      */
@@ -145,6 +148,18 @@ class Categoria
                 $producto->setCategoria(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isEstado(): ?bool
+    {
+        return $this->estado;
+    }
+
+    public function setEstado(bool $estado): static
+    {
+        $this->estado = $estado;
 
         return $this;
     }

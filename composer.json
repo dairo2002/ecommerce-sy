@@ -12,6 +12,7 @@
         "doctrine/doctrine-bundle": "^2.13",
         "doctrine/doctrine-migrations-bundle": "^3.7",
         "doctrine/orm": "^3.6",
+        "phpoffice/phpspreadsheet": "^5.9",
         "symfony/apache-pack": "*",
         "symfony/asset": "6.1.*",
         "symfony/console": "6.1.*",

@@ -6,6 +6,10 @@ const APP = {
         user: {
             login:  '/user/login',
             signup: '/user/signup'
+        }, 
+
+        pruebas: {
+            cargue: '/pruebas/cargue'    
         }
     }
 };
