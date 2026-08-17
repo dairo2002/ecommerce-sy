@@ -1,3 +1,54 @@
+$(document).ready(function() {
+
+    console.log('hola');
+    
+  $("#searchInput").autocomplete({
+    minLength: 2,
+    delay: 300,
+    appendTo: '.site-navbar__search',
+    source: function(request, response) {      
+    // console.log("Valor enviado al controlador:", request.term);      
+    // console.log({'endpoind': `${APP.BASE_URL}${APP.ENDPOINTS.home.searchAll}`});
+      $.ajax({
+        url: `${APP.BASE_URL}${APP.ENDPOINTS.home.searchAll}`,
+        type: "GET",
+        dataType: "json",
+        data: {
+          search: request.term
+        },
+        success: function(data) {           
+            console.log(data.search);
+          response($.map(data.search, function(item) {
+            return {
+                label: item.producto + " (" + item.categoria + ")",
+                value: item.producto,
+                id: item.idproducto,
+                categoria: item.categoria
+            };
+          }));
+        },
+        error: function() {
+          response([]); // Vacía la lista si la petición falla
+        }
+      });
+    },
+
+    focus: function(event, ui) {
+      event.preventDefault();
+    },
+
+    select: function(event, ui) {
+        console.log({ui});
+        
+        $("#autocompleteList").val(ui.item.id);
+        console.log("Seleccionado ID:", ui.item.id, "Nombre:", ui.item.value);
+    }
+  });
+
+});
+
+
+
 let urlApi = "http://localhost:8080/home/cart/add";
 let urlList = "http://localhost:8080/home/cart/list";
 let urlDelete = "http://localhost:8080/home/cart/delete";

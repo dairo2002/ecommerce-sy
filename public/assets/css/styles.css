@@ -31,7 +31,9 @@
     gap: clamp(1rem, 2.5vw, 2.5rem);
 }
 
-.site-navbar__links { gap: .25rem; }
+.site-navbar__links {
+    gap: .25rem;
+}
 
 .site-navbar .nav-link {
     color: var(--navbar-ink);
@@ -65,7 +67,10 @@
     box-shadow: 0 0 0 .2rem rgba(25, 135, 84, .12);
 }
 
-.site-navbar__search i { color: var(--navbar-muted); font-size: .9rem; }
+.site-navbar__search i {
+    color: var(--navbar-muted);
+    font-size: .9rem;
+}
 
 .site-navbar__search .form-control {
     background: transparent;
@@ -76,7 +81,9 @@
     padding-left: .65rem;
 }
 
-.site-navbar__search .form-control::placeholder { color: #8b958f; }
+.site-navbar__search .form-control::placeholder {
+    color: #8b958f;
+}
 
 .site-navbar__actions {
     align-items: center;
@@ -109,8 +116,13 @@
     color: var(--navbar-accent);
 }
 
-.site-navbar__user::after { margin-left: .4rem; }
-.cart-badge-top:empty { display: none; }
+.site-navbar__user::after {
+    margin-left: .4rem;
+}
+
+.cart-badge-top:empty {
+    display: none;
+}
 
 .cart-badge-top:not(:empty) {
     align-items: center;
@@ -131,9 +143,55 @@
     cursor: pointer;
 }
 
+.autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #cccccc;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    max-height: 250px;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 1000;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.site-navbar__search {
+    position: relative;
+}
+
+.site-navbar__search .ui-autocomplete {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
 @media (max-width: 991.98px) {
-    .site-navbar__content { align-items: stretch; gap: .75rem; padding-top: .9rem; }
-    .site-navbar__links { padding-bottom: .25rem; }
-    .site-navbar__search { max-width: none; }
-    .site-navbar__actions { margin-left: 0; }
+    .site-navbar__content {
+        align-items: stretch;
+        gap: .75rem;
+        padding-top: .9rem;
+    }
+
+    .site-navbar__links {
+        padding-bottom: .25rem;
+    }
+
+    .site-navbar__search {
+        max-width: none;
+    }
+
+    .site-navbar__actions {
+        margin-left: 0;
+    }
 }

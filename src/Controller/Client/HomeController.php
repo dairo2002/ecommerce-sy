@@ -18,19 +18,22 @@ class HomeController extends AbstractController
     private $em;    
     private $cart;
 
-    public function __construct(EntityManagerInterface $em, CartService $cart) {
+    public function __construct(
+        EntityManagerInterface $em, 
+        CartService $cart,
+    ) {
         $this->em = $em;
-        $this->cart = $cart;
+        $this->cart = $cart;        
     }
 
     public function index(): Response
     {
+        $allProducts = $this->em->getRepository(Productos::class)->findAll();
         $allCategory = $this->em->getRepository(Categoria::class)->findAll();
-        $allProducts = $this->em->getRepository(Productos::class)->findAll();                
 
         return $this->render('client/home.html.twig', [
-            'allCategory' => $allCategory,
-            'allProducts' => $allProducts            
+            'allProducts' => $allProducts,          
+            'allCategory' => $allCategory
         ]);
     }
 
@@ -61,4 +64,15 @@ class HomeController extends AbstractController
     public function deleteProducts($productId) {    
         return $this->cart->delete(intval($productId));
     }
+
+    #[Route('/home/searchAll', name: 'search_autocomplete', methods: ["GET"])]
+    public function autoCompleteAll(Request $request): JsonResponse {        
+        $search = $request->query->get('search');        
+        $result = $this->em->getRepository(Productos::class)->serchAll($search);
+
+        return new JsonResponse([
+            'search' => $result
+        ]);
+    }
+
 }

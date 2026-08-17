@@ -38,6 +38,20 @@ class ProductosRepository extends ServiceEntityRepository
             ->getArrayResult();
     }
 
+    public function serchAll(string $like) {        
+        return $this->createQueryBuilder('p')
+            ->select("
+                p.id as idproducto,
+                c.id as idcategoria,
+                p.nombre as producto,
+                c.nombre as categoria
+            ")
+            ->innerJoin('p.categoria', 'c')
+            ->where('p.nombre LIKE :search OR c.nombre LIKE :search') // <-- Cambiado p.descripcion por p.nombre
+            ->setParameter('search', '%' . $like . '%')
+            ->getQuery()
+            ->getArrayResult();
+    }
 
     /*
   $entityManager = $this->getEntityManager();

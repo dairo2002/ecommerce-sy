@@ -6,6 +6,8 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
 
         {% block stylesheets %}
+            <!-- JQUERY -->
+            <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
             <!-- FONT AWESOME -->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
             <!-- BOOTSTRAP -->
@@ -28,6 +30,8 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
             <!-- jQuery.js -->
             <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+            <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>            
             <!-- CHART.JS -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js" integrity="sha512-kdpGWY5wS6yTcqKxo6c14+4nk99hWFTwQ5XtSyELJxVwpWH23MN80iTVzkMg1jv3FZbdKPbFWLr98AA03/zPuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js" integrity="sha512-ttHne44lbbucAUVjyStgbDTTqvNVQdIGN9gqZeai69i4OXSDNjlBd1tyCVXI/a/DqITpj9gXi84dcyG2vz4jhw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -46,17 +50,19 @@
                 </button>
                 <div class="collapse navbar-collapse site-navbar__content" id="navbarSupportedContent">
                     <ul class="navbar-nav site-navbar__links">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_admin_productos') }}">Productos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_admin_categorias') }}">Categorías</a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_admin_productos') }}">Productos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_admin_categorias') }}">Categorías</a>
+                        </li>
                     </ul>
                     <div class="site-navbar__search" role="search">
                         <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                        <input id="productSearch" class="form-control" type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar productos" autocomplete="off" />
+                        <input id="searchInput" class="form-control" type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar productos" autocomplete="off" />
+                        <ul id="autocompleteList" class="autocomplete-list"></ul>
                     </div>
+
                     <div class="site-navbar__actions">
 
                         <button class="btn site-navbar__icon-button" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" aria-label="Ver carrito">

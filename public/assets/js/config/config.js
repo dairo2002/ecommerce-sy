@@ -2,6 +2,10 @@ const APP = {
     BASE_URL: window.location.origin,
 
     ENDPOINTS: {
+        home: {
+            searchAll: '/home/searchAll'
+        },
+        
         // add categorias
 
         producto: {
