@@ -3,7 +3,8 @@ const APP = {
 
     ENDPOINTS: {
         home: {
-            searchAll: '/home/searchAll'
+            searchAll: '/home/searchAll',
+            detailProduct: '/home/detalle'
         },
         
         // add categorias

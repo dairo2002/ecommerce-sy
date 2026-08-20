@@ -23,8 +23,8 @@ class ProductosRepository extends ServiceEntityRepository
         parent::__construct($registry, Productos::class);
     }
 
-    public function findProductsWithCategory() {        
-        return $this->createQueryBuilder('p')
+    public function findProductsWithCategory($productId = null) {        
+        $qb = $this->createQueryBuilder('p')
             ->select("
                 p.nombre as producto,
                 c.nombre as categoria,
@@ -33,9 +33,14 @@ class ProductosRepository extends ServiceEntityRepository
                 p.precio,
                 p.stock
             ")
-            ->innerJoin('p.categoria', 'c')
-            ->getQuery()
-            ->getArrayResult();
+            ->innerJoin('p.categoria', 'c');
+            
+            if ($productId !== null) {
+                $qb->where('p.id = :productId')
+                ->setParameter('productId', $productId);
+            }
+        
+            return $qb->getQuery()->getArrayResult();
     }
 
     public function serchAll(string $like) {        
@@ -47,7 +52,7 @@ class ProductosRepository extends ServiceEntityRepository
                 c.nombre as categoria
             ")
             ->innerJoin('p.categoria', 'c')
-            ->where('p.nombre LIKE :search OR c.nombre LIKE :search') // <-- Cambiado p.descripcion por p.nombre
+            ->where('p.nombre LIKE :search OR c.nombre LIKE :search')
             ->setParameter('search', '%' . $like . '%')
             ->getQuery()
             ->getArrayResult();

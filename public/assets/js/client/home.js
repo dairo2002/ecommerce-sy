@@ -22,7 +22,7 @@ $(document).ready(function() {
             return {
                 label: item.producto + " (" + item.categoria + ")",
                 value: item.producto,
-                id: item.idproducto,
+                productId: item.idproducto,
                 categoria: item.categoria
             };
           }));
@@ -38,14 +38,17 @@ $(document).ready(function() {
     },
 
     select: function(event, ui) {
-        console.log({ui});
-        
         $("#autocompleteList").val(ui.item.id);
-        console.log("Seleccionado ID:", ui.item.id, "Nombre:", ui.item.value);
+        detailProduct(ui.item.productId);
     }
   });
-
 });
+
+async function detailProduct(productId) {    
+    await fetch(`${APP.BASE_URL}${APP.ENDPOINTS.home.detailProduct}/${productId}`, {
+        method: 'GET'
+    });
+}
 
 
 

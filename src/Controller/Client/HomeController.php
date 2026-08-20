@@ -69,10 +69,15 @@ class HomeController extends AbstractController
     public function autoCompleteAll(Request $request): JsonResponse {        
         $search = $request->query->get('search');        
         $result = $this->em->getRepository(Productos::class)->serchAll($search);
-
-        return new JsonResponse([
-            'search' => $result
-        ]);
+        return new JsonResponse(['search' => $result]);
     }
+
+    #[Route('/home/detalle/{productId}', name: 'search_detalle_producto', methods: ["GET"])]
+    public function detailProduct($productId): JsonResponse {                
+        $result = $this->em->getRepository(Productos::class)->findProductsWithCategory($productId);
+        // print_r($result).die();
+        return new JsonResponse(['search' => $result]);
+    }
+
 
 }
